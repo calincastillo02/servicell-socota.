@@ -4,429 +4,272 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#123d2a">
-<title>Servicell Socota - Sistema Técnico</title>
+<title>Servicell Socota</title>
 <style>
-:root{--rojo:#123d2a;--claro:#edf5ef;--oro:#d5b45b;--fondo:#f4f6f4}
 *{box-sizing:border-box}
-body{margin:0;background:var(--fondo);font-family:Arial,sans-serif;color:#202820}
-header{background:var(--verde);color:white;padding:22px 16px}
-header h1{margin:0;font-size:24px}
-header p{margin:7px 0 0;color:#dce9df}
-nav{display:flex;gap:7px;padding:10px;background:#fff;overflow-x:auto;position:sticky;top:0;z-index:2}
-nav button{white-space:nowrap;background:#e9eee9;color:#203b2a}
-button{border:0;border-radius:8px;padding:12px 14px;font-weight:bold;cursor:pointer}
-button:active{opacity:.8}
-nav button.active,.primary{background:var(--verde);color:white}
-.gold{background:var(--oro);color:#18291c}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#172033}
+header{background:#123b2b;color:white;padding:22px;text-align:center}
 main{max-width:850px;margin:auto;padding:16px}
-section.panel{display:none}
-section.panel.active{display:block}
-.card{background:white;border-radius:13px;padding:16px;margin-bottom:15px;box-shadow:0 2px 9px #0000000b}
-h2{font-size:20px;margin-top:0;color:var(--verde)}
-h3{font-size:16px}
-label{display:block;font-size:13px;font-weight:bold;margin:12px 0 6px}
-input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5cd;border-radius:8px;font:inherit;background:white}
-textarea{min-height:75px;resize:vertical}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.full{grid-column:1/-1}
-.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.actions button{flex:1}
-.secondary{background:#e7eee8;color:#163b26}
-.danger{background:#fee2e2;color:#991b1b}
-.item{border:1px solid #e0e6e0;padding:13px;border-radius:10px;margin:10px 0}
-.item h3{margin:0 0 6px}
-.muted{color:#657168;font-size:13px}
-.status{display:inline-block;background:#e7f2e8;color:#1a6333;border-radius:20px;padding:5px 9px;font-size:12px;font-weight:bold}
-.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.photo-grid img{width:100%;height:135px;object-fit:cover;border-radius:8px;margin-top:8px}
-.stat{background:var(--claro);padding:14px;border-radius:10px}
-.stat strong{font-size:24px;display:block;color:var(--verde)}
-#ticket{background:white;padding:20px}
-footer{text-align:center;padding:22px;color:#657168;font-size:12px}
-small{color:#657168}
-@media(max-width:480px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.photo-grid img{height:110px}}
-@media print{
- body{background:white}
- header,nav,footer,.no-print,#dashboard,#recepcion,#ordenes,#ajustes{display:none!important}
- main{padding:0}
- #comprobante{display:block!important}
- #ticket{box-shadow:none;padding:0}
-}
+.card{background:white;padding:18px;border-radius:14px;margin:14px 0;box-shadow:0 2px 10px #0001}
+input,select,textarea,button{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:1px solid #cbd5e1;font-size:16px}
+button{background:#176b48;color:white;border:0;font-weight:bold}
+.secondary{background:#334155}
+.hidden{display:none!important}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.dot{height:65px;border-radius:50%;background:#e2e8f0;color:#123b2b;font-size:22px}
+.small{font-size:13px;color:#64748b}
+.item{border:1px solid #ddd;padding:12px;border-radius:10px;margin:10px 0}
 </style>
 </head>
 <body>
 <header>
-  <h1>🔧 SERVICELL SOCOTA</h1>
-  <p>Sistema de recepción y reparación de celulares</p>
+  <h1>SERVICELL SOCOTA</h1>
+  <p>Recepción y reparación de celulares</p>
 </header>
 
-<nav class="no-print">
-  <button class="active" data-tab="inicio">Inicio</button>
-  <button data-tab="recepcion">Nueva recepción</button>
-  <button data-tab="ordenes">Equipos</button>
-  <button data-tab="ajustes">Configuración</button>
-</nav>
-
 <main>
-<section id="inicio" class="panel active">
-  <div class="card">
-    <h2>Panel de control</h2>
-    <p>Bienvenido al sistema de Servicell Socota.</p>
-    <div class="grid">
-      <div class="stat"><strong id="total">0</strong><span>Equipos registrados</span></div>
-      <div class="stat"><strong id="pendientes">0</strong><span>Trabajos pendientes</span></div>
-      <div class="stat"><strong id="listos">0</strong><span>Listos para entregar</span></div>
-      <div class="stat"><strong id="saldo">S/ 0.00</strong><span>Saldo por cobrar</span></div>
-    </div>
-  </div>
-  <div class="card">
-    <h2>Accesos rápidos</h2>
-    <div class="actions">
-      <button class="primary" onclick="tab('recepcion')">＋ Recibir equipo</button>
-      <button class="secondary" onclick="tab('ordenes')">Consultar equipos</button>
-    </div>
-  </div>
-  <div class="card">
-    <h2>Últimas recepciones</h2>
-    <div id="ultimas"></div>
-  </div>
+<section id="setup" class="card hidden">
+  <h2>Configurar seguridad</h2>
+  <p>Crea un PIN de 6 dígitos y un patrón para este navegador.</p>
+  <label>PIN del dueño</label>
+  <input id="newPin" type="password" inputmode="numeric" maxlength="6" placeholder="6 dígitos">
+  <label>Nombre del técnico</label>
+  <input id="techName" placeholder="Ej. Técnico">
+  <label>PIN del técnico (6 dígitos)</label>
+  <input id="techPin" type="password" inputmode="numeric" maxlength="6">
+  <p>Selecciona al menos 4 puntos para crear el patrón del dueño:</p>
+  <div class="grid" id="patternSetup"></div>
+  <p id="patternStatus" class="small">Puntos seleccionados: ninguno</p>
+  <button onclick="saveSetup()">Guardar configuración</button>
 </section>
 
-<section id="recepcion" class="panel">
+<section id="login" class="card hidden">
+  <h2>Acceso seguro</h2>
+  <label>Usuario</label>
+  <select id="loginRole">
+    <option value="owner">Dueño</option>
+    <option value="tech">Técnico</option>
+  </select>
+  <label>PIN</label>
+  <input id="loginPin" type="password" inputmode="numeric" maxlength="6" placeholder="Ingresa tu PIN">
+  <button onclick="login()">Ingresar con PIN</button>
+  <p class="small">También puedes desbloquear con el patrón del dueño en este dispositivo.</p>
+  <div class="grid" id="patternLogin"></div>
+  <p id="loginMessage" class="small"></p>
+</section>
+
+<section id="app" class="hidden">
   <div class="card">
-    <h2 id="formTitle">Nueva recepción de equipo</h2>
-    <form id="form">
-      <input type="hidden" id="editId">
-      <div class="grid">
-        <div>
-          <label>Nombre del cliente *</label>
-          <input id="cliente" required placeholder="Nombre completo">
-        </div>
-        <div>
-          <label>Teléfono / WhatsApp *</label>
-          <input id="telefono" required inputmode="tel" placeholder="Número del cliente">
-        </div>
-        <div>
-          <label>Marca *</label>
-          <input id="marca" required placeholder="Samsung, Motorola...">
-        </div>
-        <div>
-          <label>Modelo *</label>
-          <input id="modelo" required placeholder="Ej. Galaxy A15">
-        </div>
-        <div>
-          <label>Color</label>
-          <input id="color" placeholder="Color del equipo">
-        </div>
-        <div>
-          <label>IMEI o número de serie</label>
-          <input id="imei" placeholder="Opcional">
-        </div>
-        <div class="full">
-          <label>Falla que indica el cliente *</label>
-          <textarea id="falla" required placeholder="Ej. No enciende, pantalla rota..."></textarea>
-        </div>
-        <div class="full">
-          <label>Estado físico al recibirlo</label>
-          <textarea id="estado" placeholder="Golpes, rayones, pantalla, humedad..."></textarea>
-        </div>
-        <div class="full">
-          <label>Accesorios recibidos</label>
-          <input id="accesorios" placeholder="Ej. Sin accesorios, funda, cargador">
-Contraseña o pin 
-Patrón 
-        </div>
-        <div class="full">
-          <label>Fotos de entrada (puedes elegir varias)</label>
-          <input id="fotosEntrada" type="file" accept="image/*" multiple>
-          <small>Selecciona las fotos del estado del celular al recibirlo.</small>
-          <div id="previewEntrada" class="photo-grid"></div>
-        </div>
-        <div class="full">
-          <label>Diagnóstico técnico</label>
-          <textarea id="diagnostico" placeholder="Completar después de revisar el equipo"></textarea>
-        </div>
-        <div>
-          <label>Precio acordado (S/)</label>
-          <input id="precio" type="number" min="0" step="0.01" value="0">
-        </div>
-        <div>
-          <label>Adelanto (S/)</label>
-          <input id="adelanto" type="number" min="0" step="0.01" value="0">
-        </div>
-        <div class="full">
-          <label>Estado de la reparación</label>
-          <select id="estadoTrabajo">
-            <option>Recibido</option>
-            <option>En diagnóstico</option>
-            <option>Esperando repuesto</option>
-            <option>En reparación</option>
-            <option>Listo para entregar</option>
-            <option>Entregado</option>
-          </select>
-        </div>
-        <div class="full">
-          <label>Notas adicionales</label>
-          <textarea id="notas" placeholder="Observaciones internas"></textarea>
-        </div>
-      </div>
-      <div class="actions">
-        <button class="primary" type="submit">Guardar recepción</button>
-        <button class="secondary" type="button" onclick="limpiarForm()">Limpiar</button>
-      </div>
+    <h2>Panel de trabajo</h2>
+    <p id="welcome"></p>
+    <button onclick="showForm()">+ Recibir celular</button>
+    <button class="secondary" onclick="showRecords()">Ver equipos recibidos</button>
+    <button class="secondary" onclick="logout()">Bloquear sistema</button>
+  </div>
+
+  <div id="formCard" class="card hidden">
+    <h2>Recepción del equipo</h2>
+    <form id="repairForm">
+      <label>Nombre del cliente *</label>
+      <input name="client" required>
+      <label>Teléfono / WhatsApp del cliente</label>
+      <input name="phone" inputmode="tel">
+      <label>Marca</label>
+      <input name="brand" placeholder="Samsung, Motorola, iPhone...">
+      <label>Modelo</label>
+      <input name="model">
+      <label>Color</label>
+      <input name="color">
+      <label>IMEI o número de serie</label>
+      <input name="imei">
+      <label>Falla reportada *</label>
+      <textarea name="fault" required></textarea>
+      <label>Estado físico al recibirlo</label>
+      <textarea name="condition" placeholder="Pantalla rota, rayones, golpes..."></textarea>
+      <label>Accesorios recibidos</label>
+      <input name="accessories" placeholder="Sin accesorios, cargador, funda...">
+      <label>Fotos del equipo al recibirlo</label>
+      <input name="photos" type="file" accept="image/*" multiple>
+      <label>Diagnóstico</label>
+      <textarea name="diagnosis"></textarea>
+      <label>Precio acordado (S/)</label>
+      <input name="price" type="number" min="0" step="0.01" value="0">
+      <label>Adelanto (S/)</label>
+      <input name="advance" type="number" min="0" step="0.01" value="0">
+      <label>Estado de reparación</label>
+      <select name="status">
+        <option>Recibido</option>
+        <option>En diagnóstico</option>
+        <option>Esperando repuesto</option>
+        <option>En reparación</option>
+        <option>Reparado</option>
+        <option>Entregado</option>
+      </select>
+      <label>Observaciones</label>
+      <textarea name="notes"></textarea>
+      <button type="submit">Guardar recepción</button>
     </form>
   </div>
-</section>
 
-<section id="ordenes" class="panel">
-  <div class="card">
+  <div id="recordsCard" class="card hidden">
     <h2>Equipos registrados</h2>
-    <input id="buscar" placeholder="Buscar por código, cliente, teléfono o modelo...">
-    <div id="lista"></div>
-  </div>
-</section>
-
-<section id="ajustes" class="panel">
-  <div class="card">
-    <h2>Configuración del taller</h2>
-    <label>Nombre del negocio</label>
-    <input id="negocio" value="Servicell Socota">
-    <label>Dirección</label>
-    <input id="direccion" value="Socota, Cutervo">
-    <label>WhatsApp del taller (con código de país)</label>
-    <input id="whatsappTaller" value="51968679712" inputmode="numeric">
-    <div class="actions">
-      <button class="primary" onclick="guardarAjustes()">Guardar configuración</button>
-      <button class="secondary" onclick="exportar()">Exportar registros a JSON</button>
-    </div>
-    <p class="muted">La exportación crea una copia de los datos guardados en este navegador.</p>
-  </div>
-  <div class="card">
-    <h2>Importante sobre los datos</h2>
-    <p>Esta versión guarda la información en el navegador de este dispositivo. No sincroniza automáticamente con el celular del técnico.</p>
-    <p>Para usar cuentas separadas, compartir registros entre dispositivos y almacenar fotos en línea, será necesario conectar una base de datos y almacenamiento seguro.</p>
-  </div>
-</section>
-
-<section id="comprobante" class="panel">
-  <div id="ticket"></div>
-  <div class="actions no-print">
-    <button class="primary" onclick="window.print()">🖨️ Imprimir / PDF</button>
-    <button class="gold" onclick="compartirWhatsApp()">WhatsApp</button>
-    <button class="secondary" onclick="tab('ordenes')">Volver a equipos</button>
+    <input id="search" placeholder="Buscar cliente o modelo" oninput="renderRecords()">
+    <div id="records"></div>
+    <button class="secondary" onclick="exportBackup()">Exportar copia de seguridad</button>
   </div>
 </section>
 </main>
-<footer>Servicell Socota · Sistema de gestión técnica</footer>
 
 <script>
-const $=id=>document.getElementById(id);
-const KEY="servicell_socota_ordenes_v1";
-const CFG="servicell_socota_config_v1";
-let ordenes=[];
-let fotosNuevasEntrada=[];
-let fotosNuevasSalida=[];
-let comprobanteId=null;
+const $ = id => document.getElementById(id);
+const configKey = "servicell_security_v1";
+const recordsKey = "servicell_repairs_v1";
+let config, role = "", pattern = [], loginPattern = [];
 
-try{ordenes=JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){ordenes=[]}
-let config={nombre:"Servicell Socota",direccion:"Socota, Cutervo",whatsapp:"51968679712"};
-try{config={...config,...JSON.parse(localStorage.getItem(CFG)||"{}")}}catch(e){}
-
-function guardarDatos(){
- try{localStorage.setItem(KEY,JSON.stringify(ordenes));return true}
- catch(e){alert("No se pudieron guardar todos los datos. Las fotos pueden ser demasiado grandes. Exporta tus registros y reduce el tamaño de las fotos.");return false}
+function readRecords(){
+  try { return JSON.parse(localStorage.getItem(recordsKey) || "[]"); }
+  catch(e){ return []; }
 }
-function guardarConfigLocal(){localStorage.setItem(CFG,JSON.stringify(config))}
-function dinero(n){return "S/ "+Number(n||0).toFixed(2)}
-function escapar(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function codigoNuevo(){return "SS-"+Date.now().toString().slice(-9)}
-function saldo(o){return Math.max(0,Number(o.precio||0)-Number(o.adelanto||0))}
-function fecha(v){return new Date(v).toLocaleString("es-PE")}
-function tab(id){
- document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
- $(id).classList.add("active");
- document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));
- if(id==="ordenes")dibujarLista();
- if(id==="inicio")actualizarInicio();
- window.scrollTo(0,0)
+function setScreen(id){
+  ["setup","login","app"].forEach(x => $(x).classList.toggle("hidden",x!==id));
 }
-document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>tab(b.dataset.tab));
-
-function leerFotos(files){
- return Promise.all(Array.from(files||[]).map(f=>new Promise((resolve,reject)=>{
-  if(!f.type.startsWith("image/"))return resolve(null);
-  const r=new FileReader();
-  r.onload=()=>resolve({nombre:f.name,data:r.result});
-  r.onerror=()=>reject();
-  r.readAsDataURL(f);
- }))).then(a=>a.filter(Boolean))
+function makeGrid(id, callback){
+  const grid = $(id); grid.innerHTML = "";
+  for(let i=1;i<=9;i++){
+    const b=document.createElement("button");
+    b.type="button"; b.className="dot"; b.textContent="•";
+    b.onclick=()=>callback(i,b);
+    grid.appendChild(b);
+  }
 }
-$("fotosEntrada").addEventListener("change",async e=>{
- try{fotosNuevasEntrada=await leerFotos(e.target.files);mostrarPreview("previewEntrada",fotosNuevasEntrada)}
- catch(e){alert("No se pudieron leer las fotos")}
-});
-function mostrarPreview(id,fotos){
- $(id).innerHTML=fotos.map(f=>`<div><img src="${f.data}" alt="Foto seleccionada"><small>${escapar(f.nombre)}</small></div>`).join("")
+function init(){
+  config=JSON.parse(localStorage.getItem(configKey)||"null");
+  if(!config){ setScreen("setup"); makeGrid("patternSetup",selectSetupPoint); }
+  else { setScreen("login"); makeGrid("patternLogin",selectLoginPoint); }
 }
-function valor(id){return $(id).value.trim()}
-function limpiarForm(){
- $("form").reset();$("editId").value="";$("precio").value="0";$("adelanto").value="0";
- $("formTitle").textContent="Nueva recepción de equipo";
- fotosNuevasEntrada=[];$("previewEntrada").innerHTML="";
- $("fotosEntrada").value="";
+function selectSetupPoint(n,b){
+  if(pattern.includes(n)) return;
+  pattern.push(n); b.textContent=pattern.length;
+  $("patternStatus").textContent="Puntos seleccionados: "+pattern.join("-");
 }
-$("form").addEventListener("submit",async e=>{
- e.preventDefault();
- let id=valor("editId");
- let anterior=ordenes.find(o=>o.id===id);
- let nuevas;
- try{nuevas=await leerFotos($("fotosEntrada").files)}catch(e){alert("Error al leer las fotos");return}
- const o={
-  id:id||codigoNuevo(),
-  creado:anterior?.creado||new Date().toISOString(),
-  actualizado:new Date().toISOString(),
-  cliente:valor("cliente"),telefono:valor("telefono"),
-  marca:valor("marca"),modelo:valor("modelo"),color:valor("color"),
-  imei:valor("imei"),falla:valor("falla"),estado:valor("estado"),
-  accesorios:valor("accesorios"),diagnostico:valor("diagnostico"),
-  precio:Number(valor("precio")||0),adelanto:Number(valor("adelanto")||0),
-  estadoTrabajo:valor("estadoTrabajo"),notas:valor("notas"),
-  fotosEntrada:[...(anterior?.fotosEntrada||[]),...nuevas],
-  fotosSalida:anterior?.fotosSalida||[]
- };
- if(o.adelanto>o.precio){if(!confirm("El adelanto supera el precio acordado. ¿Deseas continuar?"))return}
- if(anterior){ordenes=ordenes.map(x=>x.id===id?o:x)}else{ordenes.unshift(o)}
- if(!guardarDatos())return;
- limpiarForm();actualizarInicio();dibujarLista();abrirComprobante(o.id);
-});
-function actualizarInicio(){
- $("total").textContent=ordenes.length;
- $("pendientes").textContent=ordenes.filter(o=>o.estadoTrabajo!=="Entregado"&&o.estadoTrabajo!=="Listo para entregar").length;
- $("listos").textContent=ordenes.filter(o=>o.estadoTrabajo==="Listo para entregar").length;
- $("saldo").textContent=dinero(ordenes.filter(o=>o.estadoTrabajo!=="Entregado").reduce((s,o)=>s+saldo(o),0));
- $("ultimas").innerHTML=ordenes.slice(0,5).map(resumen).join("")||"<p class='muted'>Todavía no hay equipos registrados.</p>";
+function selectLoginPoint(n,b){
+  if(loginPattern.includes(n)) return;
+  loginPattern.push(n); b.textContent="●";
+  $("loginMessage").textContent="Patrón: "+loginPattern.length+" puntos";
 }
-function resumen(o){
- return `<div class="item"><h3>${escapar(o.id)} · ${escapar(o.marca)} ${escapar(o.modelo)}</h3>
- <p>${escapar(o.cliente)} · ${escapar(o.telefono)}</p>
- <span class="status">${escapar(o.estadoTrabajo)}</span>
- <p class="muted">Saldo: ${dinero(saldo(o))}</p>
- <button class="secondary" onclick="abrirComprobante('${o.id}')">Ver comprobante</button></div>`
+function saveSetup(){
+  const pin=$("newPin").value.trim(), techPin=$("techPin").value.trim();
+  const techName=$("techName").value.trim()||"Técnico";
+  if(!/^\d{6}$/.test(pin)||!/^\d{6}$/.test(techPin)){
+    alert("Los dos PIN deben tener 6 dígitos.");return;
+  }
+  if(pin===techPin){alert("Usa un PIN diferente para el técnico.");return;}
+  if(pattern.length<4){alert("El patrón debe tener al menos 4 puntos.");return;}
+  config={ownerPin:pin,techPin,techName,ownerPattern:pattern.join("-")};
+  localStorage.setItem(configKey,JSON.stringify(config));
+  pattern=[]; init();
+  alert("Configuración guardada en este navegador.");
 }
-function dibujarLista(){
- const q=$("buscar").value.toLowerCase();
- $("lista").innerHTML=ordenes.filter(o=>[o.id,o.cliente,o.telefono,o.modelo,o.marca,o.imei].some(v=>String(v||"").toLowerCase().includes(q))).map(o=>`
- <div class="item">
- <h3>${escapar(o.id)} · ${escapar(o.marca)} ${escapar(o.modelo)}</h3>
- <p><b>Cliente:</b> ${escapar(o.cliente)} · ${escapar(o.telefono)}</p>
- <p><b>Falla:</b> ${escapar(o.falla)}</p>
- <p><span class="status">${escapar(o.estadoTrabajo)}</span></p>
- <p>Precio: ${dinero(o.precio)} · Adelanto: ${dinero(o.adelanto)} · Saldo: ${dinero(saldo(o))}</p>
- <label>Actualizar estado</label>
- <select onchange="cambiarEstado('${o.id}',this.value)">
- ${["Recibido","En diagnóstico","Esperando repuesto","En reparación","Listo para entregar","Entregado"].map(s=>`<option ${o.estadoTrabajo===s?"selected":""}>${s}</option>`).join("")}
- </select>
- <div class="actions">
- <button class="primary" onclick="abrirComprobante('${o.id}')">Comprobante</button>
- <button class="secondary" onclick="editar('${o.id}')">Editar</button>
- <button class="gold" onclick="agregarFotosSalida('${o.id}')">Fotos de salida</button>
- <button class="secondary" onclick="enviarWA('${o.id}')">WhatsApp</button>
- <button class="danger" onclick="eliminar('${o.id}')">Eliminar</button>
- </div>
- <div class="photo-grid">
- ${[...(o.fotosEntrada||[]).map(f=>({...f,tipo:"Entrada"})),...(o.fotosSalida||[]).map(f=>({...f,tipo:"Salida"}))].map(f=>`<div><img src="${f.data}" alt="Evidencia"><small>${f.tipo}: ${escapar(f.nombre)}</small></div>`).join("")}
- </div>
- </div>`).join("")||"<p class='muted'>No se encontraron equipos.</p>"
+function login(){
+  const chosen=$("loginRole").value, pin=$("loginPin").value;
+  if(chosen==="owner" && pin===config.ownerPin) role="owner";
+  else if(chosen==="tech" && pin===config.techPin) role="tech";
+  else {alert("PIN incorrecto.");return;}
+  openApp();
 }
-$("buscar").addEventListener("input",dibujarLista);
-function cambiarEstado(id,s){
- const o=ordenes.find(x=>x.id===id);if(!o)return;
- o.estadoTrabajo=s;o.actualizado=new Date().toISOString();guardarDatos();actualizarInicio();dibujarLista()
+function openApp(){
+  setScreen("app");
+  $("welcome").textContent="Sesión: "+(role==="owner"?"Dueño":config.techName);
+  showForm();
 }
-function editar(id){
- const o=ordenes.find(x=>x.id===id);if(!o)return;
- $("editId").value=o.id;
- ["cliente","telefono","marca","modelo","color","imei","falla","estado","accesorios","diagnostico","precio","adelanto","estadoTrabajo","notas"].forEach(k=>$(k).value=o[k]??"");
- $("formTitle").textContent="Editar recepción "+o.id;
- $("previewEntrada").innerHTML=(o.fotosEntrada||[]).map(f=>`<div><img src="${f.data}"><small>${escapar(f.nombre)}</small></div>`).join("");
- $("fotosEntrada").value="";
- tab("recepcion")
+function showForm(){
+  $("formCard").classList.remove("hidden");
+  $("recordsCard").classList.add("hidden");
 }
-async function agregarFotosSalida(id){
- const o=ordenes.find(x=>x.id===id);if(!o)return;
- const input=document.createElement("input");input.type="file";input.accept="image/*";input.multiple=true;
- input.onchange=async()=>{
+function showRecords(){
+  $("recordsCard").classList.remove("hidden");
+  $("formCard").classList.add("hidden");
+  renderRecords();
+}
+function logout(){
+  role=""; $("loginPin").value="";
+  loginPattern=[]; init();
+}
+$("repairForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const f=e.currentTarget;
+  const data=Object.fromEntries(new FormData(f).entries());
+  const files=f.elements.photos.files;
+  data.photoNames=Array.from(files).map(x=>x.name);
+  data.id=Date.now().toString();
+  data.date=new Date().toLocaleString("es-PE");
+  data.createdBy=role;
+  data.status=data.status||"Recibido";
+  const records=readRecords();
+  records.unshift(data);
   try{
-   const fotos=await leerFotos(input.files);
-   o.fotosSalida=[...(o.fotosSalida||[]),...fotos];
-   if(guardarDatos()){alert("Fotos de salida guardadas");dibujarLista()}
-  }catch(e){alert("No se pudieron guardar las fotos")}
- };
- input.click()
+    localStorage.setItem(recordsKey,JSON.stringify(records));
+    f.reset();
+    alert("Recepción guardada en este dispositivo. Recuerda exportar copias de seguridad.");
+    showRecords();
+  }catch(err){
+    alert("No hay espacio disponible para guardar. Exporta tus registros y libera espacio.");
+  }
+});
+function renderRecords(){
+  const q=($("search").value||"").toLowerCase();
+  const records=readRecords().filter(r=>
+    [r.client,r.phone,r.brand,r.model,r.imei].join(" ").toLowerCase().includes(q));
+  $("records").innerHTML="";
+  if(!records.length){$("records").textContent="No hay equipos registrados.";return;}
+  records.forEach(r=>{
+    const d=document.createElement("div");d.className="item";
+    const title=document.createElement("h3");
+    title.textContent=(r.brand||"Celular")+" "+(r.model||"");
+    const p=document.createElement("p");
+    p.textContent="Cliente: "+r.client+" | Estado: "+r.status;
+    const fault=document.createElement("p");fault.textContent="Falla: "+r.fault;
+    const date=document.createElement("p");date.textContent="Fecha: "+r.date;
+    const print=document.createElement("button");print.textContent="Imprimir comprobante";
+    print.onclick=()=>printReceipt(r);
+    d.append(title,p,fault,date,print);
+    if(role==="owner"){
+      const del=document.createElement("button");del.textContent="Eliminar registro";
+      del.className="secondary";
+      del.onclick=()=>{
+        if(confirm("¿Eliminar este registro?")){
+          localStorage.setItem(recordsKey,JSON.stringify(readRecords().filter(x=>x.id!==r.id)));
+          renderRecords();
+        }
+      };
+      d.appendChild(del);
+    }
+    $("records").appendChild(d);
+  });
 }
-function eliminar(id){
- if(!confirm("¿Seguro que deseas eliminar esta recepción? Esta acción no se puede deshacer."))return;
- ordenes=ordenes.filter(o=>o.id!==id);guardarDatos();actualizarInicio();dibujarLista()
+function printReceipt(r){
+  const w=window.open("","_blank");
+  if(!w){alert("Permite las ventanas emergentes para imprimir.");return;}
+  const esc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  w.document.write(`<h1>SERVICELL SOCOTA</h1><h2>Comprobante de recepción</h2>
+  <p>Orden: ${esc(r.id)}</p><p>Fecha: ${esc(r.date)}</p>
+  <p>Cliente: ${esc(r.client)}</p><p>Contacto: ${esc(r.phone)}</p>
+  <p>Equipo: ${esc(r.brand)} ${esc(r.model)} - ${esc(r.color)}</p>
+  <p>IMEI/Serie: ${esc(r.imei)}</p><p>Falla: ${esc(r.fault)}</p>
+  <p>Estado físico: ${esc(r.condition)}</p><p>Accesorios: ${esc(r.accessories)}</p>
+  <p>Precio: S/ ${esc(r.price)} | Adelanto: S/ ${esc(r.advance)}</p>
+  <p>Saldo: S/ ${(Math.max(0,Number(r.price)-Number(r.advance))).toFixed(2)}</p>
+  <p>Observaciones: ${esc(r.notes)}</p>
+  <p>Firma del cliente: ________________________</p>`);
+  w.document.close();w.print();
 }
-function abrirComprobante(id){
- const o=ordenes.find(x=>x.id===id);if(!o)return;
- comprobanteId=id;
- $("ticket").innerHTML=`
- <h2 style="text-align:center">${escapar(config.nombre)}</h2>
- <p style="text-align:center">${escapar(config.direccion)}</p><hr>
- <h3>COMPROBANTE DE RECEPCIÓN</h3>
- <p><b>Código:</b> ${escapar(o.id)}</p>
- <p><b>Fecha:</b> ${escapar(fecha(o.creado))}</p><hr>
- <h3>Datos del cliente</h3>
- <p><b>Nombre:</b> ${escapar(o.cliente)}</p>
- <p><b>Teléfono:</b> ${escapar(o.telefono)}</p>
- <h3>Datos del equipo</h3>
- <p><b>Equipo:</b> ${escapar(o.marca)} ${escapar(o.modelo)}</p>
- <p><b>Color:</b> ${escapar(o.color||"No indicado")}</p>
- <p><b>IMEI/serie:</b> ${escapar(o.imei||"No registrado")}</p>
- <p><b>Falla reportada:</b> ${escapar(o.falla)}</p>
- <p><b>Estado físico al recibir:</b> ${escapar(o.estado||"No indicado")}</p>
- <p><b>Accesorios:</b> ${escapar(o.accesorios||"No indicados")}</p>
- <p><b>Diagnóstico:</b> ${escapar(o.diagnostico||"Pendiente")}</p>
- <p><b>Estado de reparación:</b> ${escapar(o.estadoTrabajo)}</p><hr>
- <p><b>Precio acordado:</b> ${dinero(o.precio)}</p>
- <p><b>Adelanto:</b> ${dinero(o.adelanto)}</p>
- <p><b>Saldo pendiente:</b> ${dinero(saldo(o))}</p>
- <p><b>Observaciones:</b> ${escapar(o.notas||"Ninguna")}</p><hr>
- <p style="font-size:12px">Conserve este código para consultar el estado de su equipo: ${escapar(o.id)}.</p>
- <p style="font-size:12px">Este comprobante registra el estado declarado y observado al recibir el equipo. Verifique los datos antes de firmar o entregar.</p>
- <br><p>Firma del cliente: _______________________</p>
- <p>Firma del técnico: _______________________</p>`;
- tab("comprobante")
+function exportBackup(){
+  const blob=new Blob([JSON.stringify(readRecords(),null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download="respaldo-servicell-socota.json";a.click();
+  URL.revokeObjectURL(a.href);
 }
-function textoWhatsApp(o){
- return `${config.nombre}\nCOMPROBANTE DE RECEPCIÓN\nCódigo: ${o.id}\nFecha: ${fecha(o.creado)}\n\nCliente: ${o.cliente}\nEquipo: ${o.marca} ${o.modelo}\nFalla: ${o.falla}\nEstado: ${o.estadoTrabajo}\n\nPrecio: ${dinero(o.precio)}\nAdelanto: ${dinero(o.adelanto)}\nSaldo pendiente: ${dinero(saldo(o))}\n\nGuarde este código para consultar su reparación.`
-}
-function abrirWA(numero,texto){
- const n=String(numero||"").replace(/\D/g,"");
- if(!n){alert("Registra un número de WhatsApp válido.");return}
- window.open("https://wa.me/"+n+"?text="+encodeURIComponent(texto),"_blank")
-}
-function enviarWA(id){
- const o=ordenes.find(x=>x.id===id);if(o)abrirWA(o.telefono,textoWhatsApp(o))
-}
-function compartirWhatsApp(){
- const o=ordenes.find(x=>x.id===comprobanteId);if(o)abrirWA(o.telefono,textoWhatsApp(o))
-}
-function guardarAjustes(){
- config={nombre:valor("negocio")||"Servicell Socota",direccion:valor("direccion"),whatsapp:valor("whatsappTaller")};
- guardarConfigLocal();alert("Configuración guardada");actualizarInicio()
-}
-function exportar(){
- const blob=new Blob([JSON.stringify({config,ordenes},null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob);const a=document.createElement("a");
- a.href=url;a.download="respaldo-servicell-socota.json";a.click();URL.revokeObjectURL(url)
-}
-$("negocio").value=config.nombre;
-$("direccion").value=config.direccion;
-$("whatsappTaller").value=config.whatsapp;
-actualizarInicio();
+init();
 </script>
 </body>
 </html>
